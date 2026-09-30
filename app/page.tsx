@@ -287,26 +287,45 @@ export default function Home() {
           )}
 
           {modal === 'listDeleteTasks' && (
-            <div id="deletedModal" className={styles.deletedModal} role="dialog" aria-modal="true" aria-labelledby="deletedModalTitle">
-              <div id="modal-header" className={styles.modalHeader}>
+            <div className={styles.deletedModal} role="dialog" aria-modal="true" aria-labelledby="deletedModalTitle">
+              <div className={styles.modalHeader}>
+                <div className={styles.deletedTitleWrap}>
+                  <span className={styles.deletedBadge}>Historial</span>
                   <h3 id="deletedModalTitle">Tareas eliminadas</h3>
-                  <button type="button" id="close-btn" className={styles.closeBtn} onClick={closeModal} aria-label="Cerrar">
-                    ×
-                  </button>
+                </div>
+                <button type="button" className={styles.closeBtn} onClick={closeModal} aria-label="Cerrar">
+                  ×
+                </button>
               </div>
-              <div id="deletedTaskList" className={styles.deletedTaskList}>
+
+              <div className={styles.deletedSummary}>
+                <span>{deletedTasks.length}</span>
+                {deletedTasks.length === 1 ? ' tarea eliminada' : ' tareas eliminadas'}
+              </div>
+
+              <div className={styles.deletedTaskList}>
                 {deletedTasks.length === 0 ? (
-                  <p>No hay tareas eliminadas.</p>
+                  <div className={styles.deletedEmptyState}>
+                    <div className={styles.deletedEmptyIcon}>✓</div>
+                    <p>No hay tareas eliminadas.</p>
+                    <span>Todo está limpio por ahora.</span>
+                  </div>
                 ) : (
                   deletedTasks.map((task) => (
-                    <div key={task.id}>
-                      {task.texto}
+                    <div key={task.id} className={styles.deletedTaskCard}>
+                      <div className={styles.deletedTaskMeta}>
+                        <span className={task.completada ? styles.deletedStatusDone : styles.deletedStatusOpen}>
+                          {task.completada ? 'Completada' : 'Pendiente'}
+                        </span>
+                      </div>
+                      <p>{task.texto}</p>
                     </div>
                   ))
                 )}
               </div>
-              <div id="modal-actions" className={styles.modalActions}>
-                  <button type="button" id="btn-cancel" className={styles.btnCancel} onClick={closeModal}>Cerrar</button>
+
+              <div className={styles.modalActions}>
+                <button type="button" className={styles.btnCancel} onClick={closeModal}>Cerrar</button>
               </div>
             </div>
           )}
